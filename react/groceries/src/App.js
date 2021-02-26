@@ -1,8 +1,9 @@
 import React from 'react'
-import { data } from './data'
-import Products from './components/Products'
-import './App.css'
 import { v4 as uuidv4 } from 'uuid'
+import Products from './components/Products'
+import Form from './components/Form'
+import { data } from './data'
+import './App.css'
 
 class App extends React.Component {
   state = {
@@ -19,7 +20,7 @@ class App extends React.Component {
     })
   }
 
-  handleSubmit = e => {
+  createNewProduct = e => {
     e.preventDefault()
 
     const { name, description, price } = this.state
@@ -32,45 +33,53 @@ class App extends React.Component {
 
     this.setState({
       // products: [...this.state.products, newProduct]
-      products: this.state.products.concat(newProduct)
+      products: this.state.products.concat(newProduct),
+      name: '',
+      description: '',
+      price: 0,
+    })
+  }
+
+  deleteProduct = _id => e => {
+    this.setState({
+      products: this.state.products.filter((el, i, arr) => {
+        return _id !== el._id
+      })
+    })
+  }
+
+  deleteAll = e => {
+    this.setState({
+      products: []
     })
   }
 
   render() {
-    const { name, description, price, products } = this.state
+    const {
+      name,
+      description,
+      price,
+      products,
+    } = this.state
     return (
       <main className="App">
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            onChange={this.handleChange}
-            value={name}
-          />
-          <label htmlFor="description">Description</label>
-          <textarea
-            name="description"
-            id="description"
-            onChange={this.handleChange}
-            value={description}
-          />
-          <label htmlFor="price">Price</label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            onChange={this.handleChange}
-            value={price}
-          />
-          <button
-            type="submit"
-          >
-            Create
-          </button>
-        </form>
-        <Products products={products} />
+        <Form
+          name={name}
+          description={description}
+          price={price}
+          handleChange={this.handleChange}
+          createNewProduct={this.createNewProduct}
+        />
+        <button
+          type="button"
+          onClick={this.deleteAll}
+        >
+          Delete All
+        </button>
+        <Products
+          products={products}
+          deleteProduct={this.deleteProduct}
+        />
       </main>
     );
   }
