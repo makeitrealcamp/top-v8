@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import Button from './components/Button'
+import Form from './components/Form'
 import './App.css';
 
 // function funcPromise() {
@@ -15,12 +17,52 @@ import './App.css';
 //   .then(res => console.log(res))
 //   .catch(err => console.log('err', err))
 
+// JSON JavaScript Object Notation
+// {
+  // json no comments
+  // "title": "post 1",
+  // "description": "asdfsd f asdf"
+// }
+
 class App extends React.Component {
   state = {
     count: 0,
     posts: [],
     error: null,
     loading: false,
+    title: '',
+    body: '',
+  }
+
+  handleChange = e => {
+    const { name, value } = e.target
+    this.setState({
+      [name]: value,
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+
+    console.log(this.state)
+    const { title, body } = this.state
+    axios({
+      method: 'POST',
+      baseURL: 'https://jsonplaceholder.typicode.com',
+      url: '/posts',
+      data: {
+        title,
+        body,
+        userId: 1
+      }
+    })
+      .then(({ data }) => {
+        console.log(data)
+        this.setState((prevState) => ({
+          posts: [data, ...prevState.posts]
+        }))
+      })
+      .catch(err => console.dir(err))
   }
 
   // UNSAFE_componentWillMount() {
@@ -69,19 +111,31 @@ class App extends React.Component {
   // componentWillUnmount() {}
 
   handleClick = () => {
-    this.setState({
-      count: this.state.count + 1
-    })
+    this.setState((prevState) => ({
+      count: prevState.count + 1
+    }), () => console.log(this.state.count))
   }
 
   render() {
-    const { count, posts, error, loading } = this.state
+    const { count, posts, error, loading, title, body } = this.state
 
     if(loading) return <p>Loading.....</p>
     if(error) return <p>{error}</p>
     return (
       <div className="App">
-        <button type="button" onClick={this.handleClick}>{count}</button>
+        <Button
+          handleClick={this.handleClick}
+        >
+          {count}
+        </Button>
+        <Button>Sign in</Button>
+        <Button>Sign up</Button>
+        <Form
+          title={title}
+          body={body}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+        />
         {!!posts && posts.length > 0 && posts.map(({ id, title, body }) => {
           return (
             <article key={id}>
