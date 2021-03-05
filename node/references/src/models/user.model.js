@@ -5,10 +5,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
     validate: {
-      validator(email) {
-        return models.User.findOne({ email })
-          .then(user => !user)
-          .catch(() => false)
+      async validator(email) {
+        const user = await models.User.findOne({ email })
+        return !user
+
+        // return models.User.findOne({ email })
+        //   .then(user => !user)
+        //   .catch(() => false)
       },
       message: 'Email must be unique'
     }
@@ -17,6 +20,9 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
+  posts: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  }
 }, {
   timestamps: true,
 });

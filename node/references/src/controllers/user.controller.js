@@ -1,29 +1,46 @@
 const User = require('../models/user.model')
 
+// async/await
+// async function foo()
 module.exports = {
-  create(req, res) {
-    const { body } = req
+  async create(req, res) {
+    try {
+      const { body } = req
 
-    User
-      .create(body)
-      .then(user => {
-        res.status(201).json(user)
-      })
-      .catch(error => {
-        res.status(400).json({ message: 'user could not be created', error })
-      })
+      const user = await User.create(body).select('email')
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(400).json({ message: 'user could not be created', error })
+    }
+
+    // User
+    //   .create(body)
+    //   .then(user => {
+    //     res.status(201).json(user)
+    //   })
+    //   .catch(error => {
+    //     res.status(400).json({ message: 'user could not be created', error })
+    //   })
   },
-  show(req, res) {
-    const { userId } = req.params
+  async show(req, res) {
+    try {
+      const { userId } = req.params
 
-    User
-      .findById(userId)
-      .then(user => {
-        res.status(200).json(user)
-      })
-      .catch(error => {
-        res.status(404).json({ message: 'user could not be found', error })
-      })
+      const user = await User.findById(userId).select('-password')
+      res.status(200).json(user)
+    } catch(error) {
+      res.status(404).json({ message: 'user could not be found', error })
+    }
+
+    // User
+    //   .findById(userId)
+    //   .populate('posts')
+    //   .then(user => {
+    //     res.status(200).json(user)
+    //   })
+    //   .catch(error => {
+    //     res.status(404).json({ message: 'user could not be found', error })
+    //   })
   }
 }
 
