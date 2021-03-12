@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 // function Counter({ count }) {
 function Counter() {
   const { count } = useSelector(state => ({
-    count: state.count,
+    count: state.countReducer.count,
   }))
   // console.log(props)
   return <p>{count}</p>
