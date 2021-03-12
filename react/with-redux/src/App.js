@@ -1,6 +1,7 @@
-import TextArea from './components/TextArea';
-import Counter from './components/Counter';
-import Button from './components/Button';
+import TextArea from './components/TextArea'
+import Counter from './components/Counter'
+import Button from './components/Button'
+import Posts from './components/Posts'
 import Text from './components/Text'
 import './App.css';
 // import {connect} from 'react-redux';
@@ -45,6 +46,7 @@ function App() {
       </Button>
       <Text />
       <TextArea />
+      <Posts />
     </div>
   );
 }
