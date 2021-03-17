@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: tasks-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/Documents/programming/data/db:/data/db
+  backend:
+    build: ./backend
+    restart: always
+    container_name: tasks-backend
+    ports:
+      - 8000:8000
+    volumes:
+      - ~/Documents/makeitreal/top/top-v8/devops/tasks/backend/src:/usr/src/app/src
+    environment:
+      - MONGO_URI=mongodb://tasks-mongo:27017/tasks
+  frontend:
+    build: ./frontend
+    restart: always
+    container_name: tasks-frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ~/Documents/makeitreal/top/top-v8/devops/tasks/frontend/src:/usr/src/app/src
+    stdin_open: true
