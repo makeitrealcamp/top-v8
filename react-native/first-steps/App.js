@@ -11,6 +11,8 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
+import Users from './components/Users'
+import Contacts from './components/Contacts'
 
 export default function App() {
   function handlePress() {
@@ -25,6 +27,7 @@ export default function App() {
         onPress={handlePress}
         title="click me"
       />
+      <Contacts />
       <TouchableHighlight
         activeOpacity={0.6}
         onPress={handlePress}
@@ -38,6 +41,7 @@ export default function App() {
         style={styles.image}
         source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg' }}
       />
+      <Users />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
