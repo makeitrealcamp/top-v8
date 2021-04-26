@@ -1,7 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Home({ navigation }) {
+  async function handleLogin() {
+    const token = 'asdyfiywaeuiotryuksladf'
+    await AsyncStorage.setItem('token', token)
+  }
+
   return (
     <View style={styles.container}>
       <Text>Home</Text>
@@ -10,6 +16,16 @@ export default function Home({ navigation }) {
         onPress={() => {
           navigation.navigate('About')
         }}
+      />
+      <Button
+        title="go to posts"
+        onPress={() => {
+          navigation.navigate('Posts')
+        }}
+      />
+      <Button
+        title="Login"
+        onPress={handleLogin}
       />
     </View>
   )
