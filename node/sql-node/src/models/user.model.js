@@ -1,9 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const userSchema = {
-    id: {
-      autoincrement: true,
-      primaryKey: true,
-      type: DataTypes.BIGINT,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
   }
 
@@ -13,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   const User = sequelize.define('User', userSchema, userOps)
+
+  User.associate = (db) => {
+    db.User.hasMany(db.Product)
+    // db.User.hasOne(db.Recipe)
+    // db.User.hasOne(db.Profile)
+  }
 
   return User
 }
