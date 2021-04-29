@@ -8,6 +8,7 @@ module.exports = {
       body,
       { include: [User] }
     )
+    console.log(Product)
 
     product.setUser(body.userId)
 

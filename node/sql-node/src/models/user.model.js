@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (db) => {
     db.User.hasMany(db.Product)
+    // db.User.belongsToMany(db.Product, { through: 'UserProduct' })
     // db.User.hasOne(db.Recipe)
     // db.User.hasOne(db.Profile)
   }
