@@ -20,6 +20,8 @@ io.on('connection', socket => {
   socket.emit('welcome', { message: 'Bienvenido' })
 
   socket.on('message', data => {
+    // Message.create(data)
+    // Message.findAll()
     socket.broadcast.emit('message', data)
   })
 
